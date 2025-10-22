@@ -84,6 +84,6 @@ Window {
 ```
  Repeater {
     model: 10
-    delegate: squareComponent { parent: root } 
+    delegate: squareComponent 
 }
 ```
