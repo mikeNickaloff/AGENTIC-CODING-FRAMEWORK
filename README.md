@@ -16,10 +16,9 @@ Window {
       id: squareComponent
       Rectangle {
         id: squareRoot
-        property var parentItem
         function moveTo(x, y) {
-           root.x = x
-           root.y = y;
+           squareRoot.x = x
+           squareRoot.y = y;
         }
         Behavior on x { NumberAnimation { duration: 300 } }
         Behavior on y { NumberAnimation { duration: 300 } }
