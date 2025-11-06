@@ -1,5 +1,7 @@
 # AGENTIC-CODING-FRAMEWORK
-Files that can be cloned and dropped into any project hat uses Agentic Coding (such as codex etc) to generate code.   These starter files will provide your Agent with the capability of abstract reasoning and multi-file complex code analysis and removes repetitive and/or breaking code errors from agentic work flows
+The latest in Agent-powered AI coding AGENTS.md evolution. This AGENTS.md and wheel.sh pair is enough to empower Agentic large language coding models to effectively utilize, build, and undersand highly compelx code bases with many files and defintions that far exceed the agent's context window by leveraging a sqlite3 database to offload much of the work that agents would normally do into quick, targetted shortcuts. 
+
+- Decreases the overall time to process a user prompt by significant amount. Also decreases overall CPU requirements, and increases the accuracy, and adds the ability to tightly integrate to any agentic coding model that supports AGENTS.md.
 
 ## Testing environment
 - A window with a component that can be used to instantiate an animated red square which will automatically move to a random place when a instance is created (similar to a class in other languages)
