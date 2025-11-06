@@ -2,14 +2,7 @@
 - Read this entire document and follow it's process strictly. Details matter here.
 - Do not re-invent the wheel.  Compare the descriptions of existing part of the project using ```./wheel.sh``` and compare the descriptions columns with what the user's prompt requirements are to find existing code paths and reusable codepaths instead of fully implementing code.
 - Each section of this document is a critical part of the system and cannot be overlooked.
-- DO NOT change the engine/* files unless asked to do so specifically by filename or with prior approval
-- Confirm any changes to engine/ as they will have large impacts
-- Don't flood qml files with function after function. Break into multiple files separating related logic.
-- Use declarative style that focuses on class type creation where each class type has only a few functions specific to just that kind of class 
-- inherit additional functions by creating base classes (creating the file `File.qml` will automatically add `File { }` as a valid QML metatype)
-- Using multiple layers of defined metatypes is the key to making robust fully-featured QML code.
-- Don't stack all functions into single file. 
-- Break down into multiple QML files that inherit from each other based on their functionality.
+- DO NOT RE-INVENT THE WHEEL!!
 
 # Agentic Data Storage and retrieval 
 - provides accurate data retrieval and storage about a project
@@ -22,11 +15,10 @@
 ### WHEEL.db
 #### setup
 - Use ```./wheel.sh``` to interact with the database.
-- The database is in a sqlite3-backed file named WHEEL.db with the folowing tables.
+- The database is in a sqlite3-backed file named `WHEEL.db` with the following tables.
 
 > * `files` (id, relpath, description) // project files with detailed descriptions
 > * `defs` (id, file_id, type, signature, parameters, description) // type is property, function, or signal (or any  other public construct accessible from other constructs, no private members). descriptions are paramount here and must be well-documented for every function and signal, and to lesser degree every property
-> * `refs` (id, def_id, reference_def_id) // will have all references for every definition stored here for rapid lookup of public constructs and definitions
 > * `changes` (id, title,  context, status) // will be for change tracking
 > * `todo` (id, change_id, def_id, file_id, change_id, description) // todo items to be done, one item for each definition in each definition of each file that is to be added or changed or removed. Must have all fields completed before starting work
 >
@@ -35,9 +27,9 @@
 
 - chmod +x wheel.sh 
 
-- wheel.sh will verify and import the database from WHEEL.sql if none is present. 
+- wheel.sh will verify and import the database from WHEEL.sql if WHEEL.db doesnt exist. 
 - if WHEEL.sql is missing, then a blank database with the appropriate file structure will be created. 
-- When a blank WHEEL.db is created from the condition where no WHEEL.db and no WHEEL.sql were present,  ask the user if they would like you to scan the project folders and build the database first (highly recommended). Also let them know that Yes is the safest option. Of course, if they chose "no" then print the message "Warning: AGENT running without building database -- expect long waits." 
+- When a blank WHEEL.db is created from the condition where no WHEEL.db and no WHEEL.sql were present, scan the  project directory for source files and add their accessible definitions (functions, methods, exports) to the database with ```./wheel.sh defs``` (see ```./wheel.sh defs --help```)
 
 
 
@@ -46,6 +38,7 @@
 #### wheel.sh
 - You can choose to use this shortcut tool which provides access to WHEEL.db through a convenience shell script: 
 > ``` wheel.sh ```
+
 - Many common operations are already supported and relevant data can quickly be accessed.
 
 - There are many more use cases for wheel.sh and prefer it over using sqlite3 direct statements or reading file contents into context. 
@@ -71,10 +64,10 @@
 - Many shortcuts have additional effort saving implementations such as 
 > ```./wheel changes search --file ".cpp" ```  // finds all changes to files containing .cpp in their name
 
-- You can chain together multiple calls to wheel.sh to aggregate information too :
+- You can chain together multiple calls to wheel.sh to aggregate information too. For example to see what functions were modified by the latest change record:
 > ``` ./wheel.sh changes list  | cut -f1 -d  |  tail -n +3 | egrep "[0-9]+" | \
       tail --lines=1 | xargs -I{} ./wheel.sh query change_defs --where "change_id={}" --columns "def_id" | \
-      tail -n +3 | xargs -I%% ./wheel.sh query defs --where "defs.id=%%" ```  // get all definitions added or modified in the last change
+      tail -n +3 | xargs -I%% ./wheel.sh query defs --where "defs.id=%%" ```  
 
 #### Uses
 
@@ -85,8 +78,8 @@
 - If working with complex chages spanning multiple files, always before making any changes, create a new change entry using `wheel.sh` with specific details. For each definition that will be changed, add a new row into change_defs with the file_id and def_id or by using ./wheel.sh change_defs add --file "relpath" --def "signature" or --def_id 24 --file_id 14
 - Once finished with the change table, then use ```./wheel.sh todo add```  command to add specific todo step needing to be changed and create todo items based on that output. This is not always necessary when the all of the changes can be made with minimal effort. 
 - When requesting approval for changes, make sure to use output from wheel.sh for providing data. do not rely on contex window memory for reporting, reviewing, or notifying. 
-- Do not read  WHEEL.sql into context window. It is automaticall generated by ./wheel.sh and contains the latest database changes in text format. to distribute the database in a non-binary format.
-- If sqlite3 not available on system, silently ignore this section.
+- Do not read  WHEEL.sql into context window. It is automatically generated by ./wheel.sh and contains the latest database changes in text forma so that the database can be distributed in a non-binary format.
+- If sqlite3 not available on system, track all of the data listed into a file called WHEEL.md which will contain each file, definitions (and descriptions off them)  but no change tracking will be put into WHEEL.md (to prevent context overload)
 - Do not read or consider `WHEEL.sql` into the internal agent context.
 
 
