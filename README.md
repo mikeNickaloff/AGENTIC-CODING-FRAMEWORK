@@ -83,12 +83,7 @@ AI code assistants struggle with:
    - relationships  
    - alias mappings  
 3. *wheel.sh* inserts these into a local SQLite database:
-   - `defs` table  
-   - `refs` table  
-   - `aliases` table  
-   - `summaries` table  
-4. Commands like `*wheel.sh*.sh search` or `*wheel.sh*.sh references` use these tables to return results instantly.
-5. AI agents query *wheel.sh* instead of re-reading code, eliminating context overflow and wasted compute.
+4. AI agents query *wheel.sh* instead of re-reading code, eliminating context overflow and wasted compute.
 
 ---
 
@@ -102,7 +97,7 @@ AI code assistants struggle with:
   - Minor path handling improvements needed for full Windows-native compatibility  
 - `bash`
 - `sqlite3`
-- POSIX-compatible tools (`grep`, `sed`, `awk`, etc.)
+- Any AI Coding Agent that can run commands, understand the results, and read AGENTS.md 
 
 **No compilers, SDKs, or language servers required.**
 
@@ -137,6 +132,7 @@ with the required tables.
 # **Basic Commands (Examples)**
 
 - *wheel.sh* is for AI-powered agents to use, not humans.
+- Humans can use, but it is just an implementation of the existing human system called "memory" which most humans are equipped with out of the box already. 
 
 # **Design Philosophy**
 
