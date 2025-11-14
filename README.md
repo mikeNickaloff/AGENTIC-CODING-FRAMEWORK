@@ -39,9 +39,6 @@ This ensures the AI never needs to re-read entire files to find important logic.
 ### **✓ Extremely Fast Search**
 ```
 ./wheel.sh search heal HP
-./wheel.sh references battleGrid_top.powerupData
-./wheel.sh defs BattleGrid
-./wheel.sh funcs player damage
 ```
 
 Results are instant because they query a **local SQLite database**, not an LLM.
