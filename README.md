@@ -38,10 +38,10 @@ This ensures the AI never needs to re-read entire files to find important logic.
 
 ### **✓ Extremely Fast Search**
 ```
-./*wheel.sh*.sh search heal HP
-./*wheel.sh*.sh references battleGrid_top.powerupData
-./*wheel.sh*.sh defs BattleGrid
-./*wheel.sh*.sh funcs player damage
+./wheel.sh search heal HP
+./wheel.sh references battleGrid_top.powerupData
+./wheel.sh defs BattleGrid
+./wheel.sh funcs player damage
 ```
 
 Results are instant because they query a **local SQLite database**, not an LLM.
@@ -116,21 +116,21 @@ AI code assistants struggle with:
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/*wheel.sh*.git
-cd *wheel.sh*
-chmod +x *wheel.sh*.sh
+git clone https://github.com/mikeNickaloff/AGENTIC-CODING-FRAMEWORK
+cd AGENTIC-CODING-FRAMEWORK
+chmod +x *wheel.sh
 ```
 
 Initialize the database:
 
 ```bash
-./*wheel.sh*.sh init
+./wheel.sh 
 ```
 
 This creates:
 
 ```
-*wheel.sh*.db
+WHEEL.db
 ```
 
 with the required tables.
@@ -139,58 +139,7 @@ with the required tables.
 
 # **Basic Commands (Examples)**
 
-### **Search definitions**
-```bash
-./*wheel.sh*.sh search player HP
-```
-
-### **Find where a symbol is referenced**
-```bash
-./*wheel.sh*.sh references battleGrid_top.powerupData
-```
-
-### **Show all functions related to “damage”**
-```bash
-./*wheel.sh*.sh funcs damage
-```
-
-### **List all definitions in a file**
-```bash
-./*wheel.sh*.sh list defs --file="game/ui/BattleGrid.qml"
-```
-
-### **Insert a new definition (AI-generated)**
-```bash
-./*wheel.sh*.sh add def \
-  --name="updateHPDelta" \
-  --file="game/logic/Player.js" \
-  --line=42 \
-  --desc="Handles player HP updates and triggers death logic."
-```
-
-### **Insert a reference**
-```bash
-./*wheel.sh*.sh add ref \
-  --symbol="player.HP" \
-  --file="game/ui/HUD.qml" \
-  --line=88
-```
-
----
-
-# **Database Schema (Simplified)**
-
-*wheel.sh* uses SQLite tables such as:
-
-- `defs` – definitions of functions/components  
-- `refs` – references to symbols  
-- `aliases` – alias relationships  
-- `summaries` – high-level explanations of code sections  
-- `files` – file metadata  
-
-These tables gradually form a complete knowledge graph of the codebase.
-
----
+- *wheel.sh* is for AI-powered agents to use, not humans.
 
 # **Design Philosophy**
 
@@ -242,7 +191,7 @@ For now, *wheel.sh* is under active development and used experimentally in AI-as
 
 
 # AGENTIC-CODING-FRAMEWORK
-The latest in Agent-powered AI coding AGENTS.md evolution. This AGENTS.md and *wheel.sh*.sh pair is enough to empower Agentic large language coding models to effectively utilize, build, and undersand highly compelx code bases with many files and defintions that far exceed the agent's context window by leveraging a sqlite3 database to offload much of the work that agents would normally do into quick, targetted shortcuts. 
+The latest in Agent-powered AI coding AGENTS.md evolution. This AGENTS.md and *wheel.sh* pair is enough to empower Agentic large language coding models to effectively utilize, build, and undersand highly compelx code bases with many files and defintions that far exceed the agent's context window by leveraging a sqlite3 database to offload much of the work that agents would normally do into quick, targetted shortcuts. 
 
 - Decreases the overall time to process a user prompt by significant amount. Also decreases overall CPU requirements, and increases the accuracy, and adds the ability to tightly integrate to any agentic coding model that supports AGENTS.md.
 
