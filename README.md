@@ -1,5 +1,248 @@
+# **A Language-Agnostic Code Intelligence Memory System**
+
+*wheel.sh* is a lightweight, persistent code-intelligence layer designed to extend the working memory of AI coding assistants by storing structured metadata, references, and descriptions in a local SQLite database.  
+This enables AI models to recall details about any codebase instantly, without repeatedly scanning the source tree or exceeding context window limits.
+
+*wheel.sh* is fully language-agnostic and works even with user-defined DSLs and novel syntaxes (e.g., q-html, q-script). It achieves this by recording information *as code is generated*, leveraging the fact that the AI has maximum understanding at creation time.
+
+---
+
+# **Key Features**
+
+### **✓ Language-Agnostic**
+Works with:
+- C, C++, JavaScript, Python  
+- QML  
+- HTML/CSS/XML  
+- Domain-specific languages  
+- Custom syntaxes and experimental DSLs  
+- Mixed-language projects  
+
+If it’s text, *wheel.sh* can store metadata about it.
+
+---
+
+### **✓ Persistent Code Memory**
+*wheel.sh* stores:
+- function descriptions  
+- symbol definitions  
+- references and usages  
+- alias relationships  
+- high-level summaries  
+- component relationships  
+- behavior and purpose descriptions  
+
+This ensures the AI never needs to re-read entire files to find important logic.
+
+---
+
+### **✓ Extremely Fast Search**
+```
+./*wheel.sh*.sh search heal HP
+./*wheel.sh*.sh references battleGrid_top.powerupData
+./*wheel.sh*.sh defs BattleGrid
+./*wheel.sh*.sh funcs player damage
+```
+
+Results are instant because they query a **local SQLite database**, not an LLM.
+
+---
+
+### **✓ Zero Maintenance**
+- No parser rules  
+- No AST requirements  
+- No language-specific indexing  
+- No grammar maintenance  
+- No re-index passes  
+- No upgrades needed when DSLs evolve  
+
+*wheel.sh* grows as the AI writes code, not as you patch the tool.
+
+---
+
+# **Why *wheel.sh* Exists**
+
+AI code assistants struggle with:
+
+- limited context windows  
+- expensive project-wide scanning  
+- CPU timeouts  
+- difficulty locating renamed or indirectly-referenced functions  
+- handling custom or experimental languages  
+- ambiguous naming  
+- multi-file, multi-language architectures  
+
+*wheel.sh* eliminates these issues by storing structured metadata and references as the AI generates code. This allows future queries to be answered instantly without full project re-analysis.
+
+---
+
+# **How It Works (Architecture Overview)**
+
+1. **AI generates or edits code.**
+2. The AI also emits:
+   - symbol definitions  
+   - reference entries  
+   - brief summaries  
+   - relationships  
+   - alias mappings  
+3. *wheel.sh* inserts these into a local SQLite database:
+   - `defs` table  
+   - `refs` table  
+   - `aliases` table  
+   - `summaries` table  
+4. Commands like `*wheel.sh*.sh search` or `*wheel.sh*.sh references` use these tables to return results instantly.
+5. AI agents query *wheel.sh* instead of re-reading code, eliminating context overflow and wasted compute.
+
+---
+
+# **Requirements**
+
+- **Linux**, **macOS**, or **WSL**  
+  - Fully supported  
+- **Native Windows**  
+  - Currently partially supported  
+  - Works best under Git Bash or WSL  
+  - Minor path handling improvements needed for full Windows-native compatibility  
+- `bash`
+- `sqlite3`
+- POSIX-compatible tools (`grep`, `sed`, `awk`, etc.)
+
+**No compilers, SDKs, or language servers required.**
+
+---
+
+# **Installation**
+
+Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/*wheel.sh*.git
+cd *wheel.sh*
+chmod +x *wheel.sh*.sh
+```
+
+Initialize the database:
+
+```bash
+./*wheel.sh*.sh init
+```
+
+This creates:
+
+```
+*wheel.sh*.db
+```
+
+with the required tables.
+
+---
+
+# **Basic Commands (Examples)**
+
+### **Search definitions**
+```bash
+./*wheel.sh*.sh search player HP
+```
+
+### **Find where a symbol is referenced**
+```bash
+./*wheel.sh*.sh references battleGrid_top.powerupData
+```
+
+### **Show all functions related to “damage”**
+```bash
+./*wheel.sh*.sh funcs damage
+```
+
+### **List all definitions in a file**
+```bash
+./*wheel.sh*.sh list defs --file="game/ui/BattleGrid.qml"
+```
+
+### **Insert a new definition (AI-generated)**
+```bash
+./*wheel.sh*.sh add def \
+  --name="updateHPDelta" \
+  --file="game/logic/Player.js" \
+  --line=42 \
+  --desc="Handles player HP updates and triggers death logic."
+```
+
+### **Insert a reference**
+```bash
+./*wheel.sh*.sh add ref \
+  --symbol="player.HP" \
+  --file="game/ui/HUD.qml" \
+  --line=88
+```
+
+---
+
+# **Database Schema (Simplified)**
+
+*wheel.sh* uses SQLite tables such as:
+
+- `defs` – definitions of functions/components  
+- `refs` – references to symbols  
+- `aliases` – alias relationships  
+- `summaries` – high-level explanations of code sections  
+- `files` – file metadata  
+
+These tables gradually form a complete knowledge graph of the codebase.
+
+---
+
+# **Design Philosophy**
+
+*wheel.sh* is built on one principle:
+
+> *“Let the AI store what it knows when it knows it — not after.”*
+
+Static analysis tools must understand every language.  
+*wheel.sh* does not.  
+It relies on the model to create metadata incrementally, using SQLite as permanent memory.
+
+This removes the need for:
+
+- parsers  
+- ASTs  
+- compilation  
+- per-language plugins  
+- fragile static analysis logic  
+
+*wheel.sh* works with **any** language that exists today or might be invented tomorrow.
+
+---
+
+# **Roadmap**
+
+- Windows-native improvements  
+- Graph visualization of symbol relationships  
+- API for multi-agent integration  
+- Dependency and lifecycle mapping  
+- Project-wide summarization tools  
+
+---
+
+# **License**
+
+TBD — pending evaluation of open-source or source-available licensing.
+
+---
+
+# **Contributions**
+
+Contributions, suggestions, and extensions are welcome once the repository is public.  
+For now, *wheel.sh* is under active development and used experimentally in AI-assisted workflows.
+
+
+---
+
+# ORIGINAL README.md
+
+
 # AGENTIC-CODING-FRAMEWORK
-The latest in Agent-powered AI coding AGENTS.md evolution. This AGENTS.md and wheel.sh pair is enough to empower Agentic large language coding models to effectively utilize, build, and undersand highly compelx code bases with many files and defintions that far exceed the agent's context window by leveraging a sqlite3 database to offload much of the work that agents would normally do into quick, targetted shortcuts. 
+The latest in Agent-powered AI coding AGENTS.md evolution. This AGENTS.md and *wheel.sh*.sh pair is enough to empower Agentic large language coding models to effectively utilize, build, and undersand highly compelx code bases with many files and defintions that far exceed the agent's context window by leveraging a sqlite3 database to offload much of the work that agents would normally do into quick, targetted shortcuts. 
 
 - Decreases the overall time to process a user prompt by significant amount. Also decreases overall CPU requirements, and increases the accuracy, and adds the ability to tightly integrate to any agentic coding model that supports AGENTS.md.
 
@@ -45,7 +288,7 @@ Window {
 
 
 ## What does this fix?
-- Agentic code generators tend to not take into consideration existing code bases and opt to reinvent the wheel when given the option.
+- Agentic code generators tend to not take into consideration existing code bases and opt to reinvent the *wheel.sh* when given the option.
 
 
 ### prompt
